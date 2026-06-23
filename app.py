@@ -8,9 +8,11 @@ import shap
 import matplotlib.pyplot as plt
 import seaborn as sns
 import requests
+import plotly.express as px
+import plotly.graph_objects as go
 
 # Page Config
-st.set_page_config(page_title="Forest Fire Prediction", page_icon="🔥", layout="wide")
+st.set_page_config(page_title="Forest Fire Prediction", page_icon="🔥", layout="wide", initial_sidebar_state="expanded")
 
 # Load models and data
 @st.cache_resource
@@ -68,12 +70,11 @@ def fetch_weather(lat, lon):
         if response.status_code == 200:
             data = response.json()
             current = data['current_weather']
-            # Open-meteo current_weather doesn't always have humidity, so we take the first hourly humidity
             humidity = data['hourly']['relativehumidity_2m'][0] if 'hourly' in data else 50
             return {
                 "temp": current['temperature'],
                 "wind_speed": current['windspeed'],
-                "rain": 0.0, # Approximate or default for current
+                "rain": 0.0,
                 "humidity": humidity
             }
     except Exception as e:
@@ -81,12 +82,12 @@ def fetch_weather(lat, lon):
     return None
 
 def main():
-    # Inject CSS for sidebar background
+    # Inject CSS for sidebar background and overall styling
     st.markdown(
         """
         <style>
         [data-testid="stSidebar"] {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80");
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -104,6 +105,23 @@ def main():
         div[role="listbox"] span {
             color: black !important;
             text-shadow: none;
+        }
+        
+        /* Stylized prediction box */
+        .pred-box {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .high-risk {
+            background-color: rgba(255, 75, 75, 0.2);
+            border: 2px solid #ff4b4b;
+        }
+        .low-risk {
+            background-color: rgba(9, 171, 59, 0.2);
+            border: 2px solid #09ab3b;
         }
         </style>
         """,
@@ -125,67 +143,72 @@ def main():
     feature_names = ['Temperature', 'RH', 'Ws', 'Rain', 'FFMC', 'DMC', 'DC', 'ISI', 'BUI', 'FWI', 'Region']
 
     if choice == "Predict":
-        st.title("Forest Fire Prediction")
-        st.markdown("Enter meteorological data to predict the probability of a forest fire.")
+        st.title("🔥 Forest Fire Prediction Engine")
+        st.markdown("Enter meteorological data and FWI indices below to predict the probability of a forest fire.")
         
-        # Region selection
-        region = st.selectbox("Region", ["Bejaia", "Sidi Bel-abbes"])
-        region_val = 0 if region == "Bejaia" else 1
-        
-        # Live weather button
-        if st.button("Fetch Live Weather for Selected Region"):
-            lat, lon = (36.75, 5.05) if region == "Bejaia" else (35.2, -0.63)
-            weather = fetch_weather(lat, lon)
-            if weather:
-                st.session_state['temp'] = weather['temp']
-                st.session_state['rh'] = weather['humidity']
-                st.session_state['ws'] = weather['wind_speed']
-                st.session_state['rain'] = weather['rain']
-                st.success("Weather data auto-filled!")
-                
-        # Input Form
+        # Region selection & Live weather button in a row
+        col_reg, col_btn = st.columns([1, 2])
+        with col_reg:
+            region = st.selectbox("Region", ["Bejaia", "Sidi Bel-abbes"])
+            region_val = 0 if region == "Bejaia" else 1
+            
+        with col_btn:
+            st.markdown("<br>", unsafe_allow_html=True) # align button
+            if st.button("🌦️ Fetch Live Weather for Selected Region", use_container_width=True):
+                lat, lon = (36.75, 5.05) if region == "Bejaia" else (35.2, -0.63)
+                weather = fetch_weather(lat, lon)
+                if weather:
+                    st.session_state['temp'] = weather['temp']
+                    st.session_state['rh'] = weather['humidity']
+                    st.session_state['ws'] = weather['wind_speed']
+                    st.session_state['rain'] = weather['rain']
+                    st.success(f"Weather data auto-filled for {region}!")
+                    
+        st.divider()
+
+        # Input Form grouped in native container cards
+        st.subheader("📊 Feature Inputs")
         col1, col2 = st.columns(2)
         with col1:
-            temp = st.number_input("Temperature (°C)", value=st.session_state.get('temp', 30.0))
-            rh = st.number_input("Relative Humidity (%)", value=float(st.session_state.get('rh', 60.0)))
-            ws = st.number_input("Wind Speed (km/h)", value=float(st.session_state.get('ws', 15.0)))
-            rain = st.number_input("Rain (mm)", value=float(st.session_state.get('rain', 0.0)))
-            ffmc = st.number_input("FFMC (Fine Fuel Moisture Code)", value=65.0)
+            with st.container(border=True):
+                st.markdown("#### 🌡️ Meteorological Data")
+                temp = st.number_input("Temperature (°C)", value=st.session_state.get('temp', 30.0))
+                rh = st.number_input("Relative Humidity (%)", value=float(st.session_state.get('rh', 60.0)))
+                ws = st.number_input("Wind Speed (km/h)", value=float(st.session_state.get('ws', 15.0)))
+                rain = st.number_input("Rain (mm)", value=float(st.session_state.get('rain', 0.0)))
+                ffmc = st.number_input("FFMC (Fine Fuel Moisture Code)", value=65.0)
             
         with col2:
-            dmc = st.number_input("DMC (Duff Moisture Code)", value=15.0)
-            dc = st.number_input("DC (Drought Code)", value=30.0)
-            isi = st.number_input("ISI (Initial Spread Index)", value=5.0)
-            bui = st.number_input("BUI (Buildup Index)", value=15.0)
-            fwi = st.number_input("FWI (Fire Weather Index)", value=5.0)
+            with st.container(border=True):
+                st.markdown("#### 🌲 FWI System Components")
+                dmc = st.number_input("DMC (Duff Moisture Code)", value=15.0)
+                dc = st.number_input("DC (Drought Code)", value=30.0)
+                isi = st.number_input("ISI (Initial Spread Index)", value=5.0)
+                bui = st.number_input("BUI (Buildup Index)", value=15.0)
+                fwi = st.number_input("FWI (Fire Weather Index)", value=5.0)
             
-        if st.button("Predict Fire Risk", type="primary"):
+        if st.button("🚀 Predict Fire Risk", type="primary", use_container_width=True):
             features = np.array([[temp, rh, ws, rain, ffmc, dmc, dc, isi, bui, fwi, region_val]])
             features_scaled = scaler.transform(features)
             
             prediction = model.predict(features_scaled)[0]
             probability = model.predict_proba(features_scaled)[0][1] if hasattr(model, 'predict_proba') else prediction
             
-            st.markdown("---")
             if prediction == 1:
-                st.error(f"🔥 **HIGH RISK OF FIRE** (Probability: {probability*100:.2f}%)")
+                st.markdown(f'<div class="pred-box high-risk"><h2>🔥 HIGH RISK OF FIRE</h2><h3>Probability: {probability*100:.1f}%</h3></div>', unsafe_allow_html=True)
             else:
-                st.success(f"🌲 **LOW RISK OF FIRE** (Probability: {probability*100:.2f}%)")
+                st.markdown(f'<div class="pred-box low-risk"><h2>🌲 LOW RISK OF FIRE</h2><h3>Probability: {probability*100:.1f}%</h3></div>', unsafe_allow_html=True)
                 
             # Explainability
-            st.subheader("Why this prediction?")
+            st.subheader("🧠 Why this prediction?")
             try:
-                # TreeExplainer for Tree models, KernelExplainer for others
                 explainer = shap.TreeExplainer(model)
                 shap_values = explainer.shap_values(features_scaled)
-                # Create a force plot
                 shap.initjs()
                 
-                # Check if shap_values is a list (for some multi-class implementations)
                 if isinstance(shap_values, list):
                     shap_val_to_plot = shap_values[1][0] if len(shap_values) > 1 else shap_values[0][0]
                 else:
-                    # Depending on XGBoost version, it might return 2D array for binary classification
                     if len(shap_values.shape) == 2:
                         shap_val_to_plot = shap_values[0]
                     else:
@@ -195,6 +218,7 @@ def main():
                 if isinstance(expected_value, (list, np.ndarray)):
                     expected_value = expected_value[1] if len(expected_value) > 1 else expected_value[0]
 
+                # We use pyplot for SHAP since it renders best natively
                 fig = shap.force_plot(expected_value, shap_val_to_plot, features[0], feature_names=feature_names, matplotlib=True, show=False)
                 st.pyplot(fig)
                 plt.clf()
@@ -202,42 +226,63 @@ def main():
                 st.warning(f"Could not generate SHAP explanation for the current model type. Error: {e}")
 
     elif choice == "Dashboard":
-        st.title("Data Visualization Dashboard")
+        st.title("📈 Data Visualization Dashboard")
         df = load_data()
         
         if not df.empty:
-            st.subheader("Fire vs Non-Fire Distribution")
-            fig1, ax1 = plt.subplots(figsize=(6,4))
-            sns.countplot(data=df, x='Classes', palette='Set2', ax=ax1)
-            ax1.set_xticklabels(['Not Fire', 'Fire'])
-            st.pyplot(fig1)
+            df['Classes_Label'] = df['Classes'].map({0: 'Not Fire', 1: 'Fire'})
+            
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.subheader("Fire vs Non-Fire Distribution")
+                fig_dist = px.pie(df, names='Classes_Label', color='Classes_Label', 
+                                  color_discrete_map={'Not Fire':'#09ab3b', 'Fire':'#ff4b4b'},
+                                  hole=0.4)
+                fig_dist.update_traces(textinfo='percent+label', textfont_size=14)
+                st.plotly_chart(fig_dist, use_container_width=True)
+                
+            with col2:
+                st.subheader("Temperature vs FWI")
+                fig_scatter = px.scatter(df, x='Temperature', y='FWI', color='Classes_Label',
+                                         color_discrete_map={'Not Fire':'#09ab3b', 'Fire':'#ff4b4b'},
+                                         size='Temperature', hover_data=['RH', 'Ws'])
+                st.plotly_chart(fig_scatter, use_container_width=True)
+                
+            st.divider()
             
             st.subheader("Correlation Heatmap")
             numeric_df = df.select_dtypes(include=[np.number])
-            fig2, ax2 = plt.subplots(figsize=(10,8))
-            sns.heatmap(numeric_df.corr(), annot=True, cmap='coolwarm', fmt=".2f", ax=ax2)
-            st.pyplot(fig2)
-            
-            st.subheader("Temperature vs FWI")
-            fig3, ax3 = plt.subplots(figsize=(8,5))
-            sns.scatterplot(data=df, x='Temperature', y='FWI', hue='Classes', palette='Set1', ax=ax3)
-            st.pyplot(fig3)
+            corr = numeric_df.corr()
+            fig_heatmap = px.imshow(corr, text_auto=".2f", aspect="auto", 
+                                    color_continuous_scale='RdBu_r')
+            st.plotly_chart(fig_heatmap, use_container_width=True)
         else:
             st.info("No data available to display.")
             
     elif choice == "Model Evaluation":
-        st.title("Model Performance")
+        st.title("⚙️ Model Performance")
         try:
             with open("models/metrics.json", "r") as f:
                 metrics = json.load(f)
             
             best_model = metrics.pop("Best_Model", "N/A")
-            st.success(f"**Selected Best Model:** {best_model}")
+            st.info(f"🏆 **Selected Best Model:** {best_model}")
             
             metrics_df = pd.DataFrame(metrics).T
-            st.dataframe(metrics_df.style.highlight_max(axis=0, color='lightgreen'))
             
-            st.bar_chart(metrics_df['F1-Score'])
+            col1, col2 = st.columns([1, 1.5])
+            with col1:
+                st.markdown("#### Metrics Table")
+                st.dataframe(metrics_df.style.highlight_max(axis=0, color='#ff4b4b'))
+            
+            with col2:
+                st.markdown("#### F1-Score Comparison")
+                fig_eval = px.bar(metrics_df, x=metrics_df.index, y='F1-Score', color='F1-Score',
+                                  color_continuous_scale='YlOrRd')
+                fig_eval.update_layout(xaxis_title="Model", yaxis_title="F1-Score")
+                st.plotly_chart(fig_eval, use_container_width=True)
+                
         except FileNotFoundError:
             st.warning("Metrics file not found. Have you trained the models yet?")
 
