@@ -82,24 +82,31 @@ def fetch_weather(lat, lon):
     return None
 
 def main():
-    # Inject CSS for sidebar background and overall styling
+    # Inject CSS for backgrounds and overall styling
     st.markdown(
         """
         <style>
-        [data-testid="stSidebar"] {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80");
+        /* Main App Background */
+        .stApp {
+            background: linear-gradient(rgba(10, 15, 12, 0.8), rgba(10, 15, 12, 0.8)), url("https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80");
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
+        
+        /* Sidebar Solid Color (Deep Forest Green) */
+        [data-testid="stSidebar"] {
+            background-color: #0d1611;
+        }
+        
         [data-testid="stSidebar"] h1, 
         [data-testid="stSidebar"] h2, 
         [data-testid="stSidebar"] h3,
         [data-testid="stSidebar"] p,
         [data-testid="stSidebar"] label,
         [data-testid="stSidebar"] span {
-            color: white !important;
-            text-shadow: 1px 1px 3px black;
+            color: #f0f2f1 !important;
+            text-shadow: none;
         }
         /* Keep dropdown menu text dark */
         div[role="listbox"] span {
