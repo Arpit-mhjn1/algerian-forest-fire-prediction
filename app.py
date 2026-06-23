@@ -204,7 +204,6 @@ def main():
             try:
                 explainer = shap.TreeExplainer(model)
                 shap_values = explainer.shap_values(features_scaled)
-                shap.initjs()
                 
                 if isinstance(shap_values, list):
                     shap_val_to_plot = shap_values[1][0] if len(shap_values) > 1 else shap_values[0][0]
