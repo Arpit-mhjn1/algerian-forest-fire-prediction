@@ -205,13 +205,25 @@ def main():
                 explainer = shap.TreeExplainer(model)
                 shap_values = explainer.shap_values(features_scaled)
                 
+                # Safely extract SHAP values for the single instance (class 1 if multi-class)
                 if isinstance(shap_values, list):
                     shap_val_to_plot = shap_values[1][0] if len(shap_values) > 1 else shap_values[0][0]
-                else:
-                    if len(shap_values.shape) == 2:
+                elif hasattr(shap_values, 'shape'):
+                    if len(shap_values.shape) == 3:
+                        # shape could be (samples, features, classes) -> (1, 11, 2)
+                        if shap_values.shape[2] >= 2:
+                            shap_val_to_plot = shap_values[0, :, 1]
+                        # shape could be (samples, classes, features) -> (1, 2, 11)
+                        elif shap_values.shape[1] >= 2:
+                            shap_val_to_plot = shap_values[0, 1, :]
+                        else:
+                            shap_val_to_plot = shap_values[0, 0, :]
+                    elif len(shap_values.shape) == 2:
                         shap_val_to_plot = shap_values[0]
                     else:
-                        shap_val_to_plot = shap_values[1][0] if len(shap_values.shape) > 2 else shap_values[0]
+                        shap_val_to_plot = shap_values
+                else:
+                    shap_val_to_plot = shap_values[0]
                         
                 expected_value = explainer.expected_value
                 if isinstance(expected_value, (list, np.ndarray)):
