@@ -85,7 +85,7 @@ def main():
     try:
         model, scaler = load_models()
     except Exception as e:
-        st.error("Model or scaler not found. Please run preprocessing and training first.")
+        st.error(f"Error during training pipeline or model loading: {str(e)}")
         st.stop()
         
     feature_names = ['Temperature', 'RH', 'Ws', 'Rain', 'FFMC', 'DMC', 'DC', 'ISI', 'BUI', 'FWI', 'Region']

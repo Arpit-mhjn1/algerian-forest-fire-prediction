@@ -27,7 +27,7 @@ def train_and_evaluate():
         "Logistic Regression": LogisticRegression(random_state=42),
         "Decision Tree": DecisionTreeClassifier(random_state=42),
         "Random Forest": RandomForestClassifier(random_state=42),
-        "XGBoost": XGBClassifier(use_label_encoder=False, eval_metric='logloss', random_state=42),
+        "XGBoost": XGBClassifier(eval_metric='logloss', random_state=42),
         "Support Vector Machine": SVC(probability=True, random_state=42)
     }
     
