@@ -1,13 +1,11 @@
 import pandas as pd
 import numpy as np
 import os
-import urllib.request
 import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from ucimlrepo import fetch_ucirepo
 
-DATA_URL = "https://archive.ics.uci.edu/ml/machine-learning-databases/00529/Algerian_forest_fires_dataset_UPDATE.csv"
-RAW_DATA_PATH = "data/raw/Algerian_forest_fires_dataset_UPDATE.csv"
 PROCESSED_TRAIN_X_PATH = "data/processed/X_train.csv"
 PROCESSED_TEST_X_PATH = "data/processed/X_test.csv"
 PROCESSED_TRAIN_Y_PATH = "data/processed/y_train.csv"
@@ -15,22 +13,13 @@ PROCESSED_TEST_Y_PATH = "data/processed/y_test.csv"
 SCALER_PATH = "models/scaler.pkl"
 
 def download_data():
-    if not os.path.exists(RAW_DATA_PATH):
-        print(f"Downloading data from {DATA_URL}...")
-        urllib.request.urlretrieve(DATA_URL, RAW_DATA_PATH)
-        print("Download complete.")
-    else:
-        print("Data already exists. Skipping download.")
+    pass # Data is fetched directly via ucimlrepo now
 
 def preprocess_data():
-    print("Loading data...")
-    # The dataset has an extra header in row 122 and some missing values
-    df = pd.read_csv(RAW_DATA_PATH, header=1)
-    
-    # Drop rows that are completely empty or have the string "day" (which are headers)
-    df.dropna(how='all', inplace=True)
-    df = df[~df['day'].astype(str).str.contains('day', na=False, case=False)]
-    df = df[~df['day'].astype(str).str.contains('Sidi', na=False, case=False)]
+    print("Loading data via ucimlrepo...")
+    algerian_forest_fires = fetch_ucirepo(id=547)
+    df = algerian_forest_fires.data.features.copy()
+    df['Classes'] = algerian_forest_fires.data.targets
     
     # Strip spaces from column names
     df.columns = df.columns.str.strip()
@@ -57,7 +46,8 @@ def preprocess_data():
     df['Classes'] = df['Classes'].apply(lambda x: 1 if 'fire' in x and 'not' not in x else 0)
     
     # Features to drop (date columns)
-    X = df.drop(['day', 'month', 'year', 'Classes'], axis=1)
+    cols_to_drop = [c for c in ['day', 'month', 'year', 'Classes'] if c in df.columns]
+    X = df.drop(cols_to_drop, axis=1)
     y = df['Classes']
     
     print("Splitting data...")

@@ -36,10 +36,11 @@ def load_models():
 @st.cache_data
 def load_data():
     try:
-        df = pd.read_csv("data/raw/Algerian_forest_fires_dataset_UPDATE.csv", header=1)
-        df.dropna(how='all', inplace=True)
-        df = df[~df['day'].astype(str).str.contains('day', na=False, case=False)]
-        df = df[~df['day'].astype(str).str.contains('Sidi', na=False, case=False)]
+        from ucimlrepo import fetch_ucirepo
+        algerian_forest_fires = fetch_ucirepo(id=547) 
+        df = algerian_forest_fires.data.features.copy()
+        df['Classes'] = algerian_forest_fires.data.targets
+        
         df.columns = df.columns.str.strip()
         if 'Classes' in df.columns:
             df['Classes'] = df['Classes'].astype(str).str.strip()

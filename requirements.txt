@@ -9,3 +9,4 @@ shap
 requests
 joblib
 openpyxl
+ucimlrepo
