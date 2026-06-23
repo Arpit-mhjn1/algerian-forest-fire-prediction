@@ -91,13 +91,19 @@ def main():
             background-position: center;
             background-repeat: no-repeat;
         }
-        [data-testid="stSidebar"] .stMarkdown p, 
-        [data-testid="stSidebar"] .stMarkdown h1, 
-        [data-testid="stSidebar"] .stMarkdown h2, 
-        [data-testid="stSidebar"] .stMarkdown h3,
-        [data-testid="stSidebar"] label {
+        [data-testid="stSidebar"] h1, 
+        [data-testid="stSidebar"] h2, 
+        [data-testid="stSidebar"] h3,
+        [data-testid="stSidebar"] p,
+        [data-testid="stSidebar"] label,
+        [data-testid="stSidebar"] span {
             color: white !important;
-            text-shadow: 1px 1px 2px black;
+            text-shadow: 1px 1px 3px black;
+        }
+        /* Keep dropdown menu text dark */
+        div[role="listbox"] span {
+            color: black !important;
+            text-shadow: none;
         }
         </style>
         """,
