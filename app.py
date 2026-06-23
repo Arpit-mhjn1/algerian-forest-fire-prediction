@@ -81,6 +81,29 @@ def fetch_weather(lat, lon):
     return None
 
 def main():
+    # Inject CSS for sidebar background
+    st.markdown(
+        """
+        <style>
+        [data-testid="stSidebar"] {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        [data-testid="stSidebar"] .stMarkdown p, 
+        [data-testid="stSidebar"] .stMarkdown h1, 
+        [data-testid="stSidebar"] .stMarkdown h2, 
+        [data-testid="stSidebar"] .stMarkdown h3,
+        [data-testid="stSidebar"] label {
+            color: white !important;
+            text-shadow: 1px 1px 2px black;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
     st.sidebar.title("🔥 Algerian Forest Fires")
     st.sidebar.markdown("Predict the occurrence of forest fires using machine learning.")
     
