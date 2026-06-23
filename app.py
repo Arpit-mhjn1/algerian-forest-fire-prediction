@@ -39,21 +39,25 @@ def load_data():
         from ucimlrepo import fetch_ucirepo
         algerian_forest_fires = fetch_ucirepo(id=547) 
         df = algerian_forest_fires.data.features.copy()
-        df['Classes'] = algerian_forest_fires.data.targets
+        
+        # safely assign targets
+        targets = algerian_forest_fires.data.targets
+        df['Classes'] = targets.iloc[:, 0] if isinstance(targets, pd.DataFrame) else targets
         
         df.columns = df.columns.str.strip()
-        if 'Classes' in df.columns:
-            df['Classes'] = df['Classes'].astype(str).str.strip()
-            df['Classes'] = df['Classes'].apply(lambda x: 1 if 'fire' in x and 'not' not in x else 0)
         
         numeric_cols = ['Temperature', 'RH', 'Ws', 'Rain', 'FFMC', 'DMC', 'DC', 'ISI', 'BUI', 'FWI']
         for col in numeric_cols:
             if col in df.columns:
                 df[col] = pd.to_numeric(df[col], errors='coerce')
         df.dropna(inplace=True)
+        
+        if 'Classes' in df.columns:
+            df['Classes'] = df['Classes'].apply(lambda x: 1 if isinstance(x, str) and 'fire' in x.lower() and 'not' not in x.lower() else 0)
+            
         return df
     except Exception as e:
-        st.error(f"Error loading raw data for dashboard: {e}")
+        st.error(f"Error loading raw data for dashboard: {str(e)}")
         return pd.DataFrame()
 
 # API configuration
