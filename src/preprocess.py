@@ -45,10 +45,12 @@ def preprocess_data():
     # Encode target variable: Fire = 1, not fire = 0
     df['Classes'] = df['Classes'].apply(lambda x: 1 if 'fire' in x and 'not' not in x else 0)
     
-    # Features to drop (date columns)
-    cols_to_drop = [c for c in ['day', 'month', 'year', 'Classes'] if c in df.columns]
-    X = df.drop(cols_to_drop, axis=1)
-    y = df['Classes']
+    # Enforce expected columns strictly
+    expected_cols = ['Temperature', 'RH', 'Ws', 'Rain', 'FFMC', 'DMC', 'DC', 'ISI', 'BUI', 'FWI', 'Region']
+    
+    # If there are any other string columns left over (like original 'region'), they are ignored.
+    X = df[expected_cols].astype(float)
+    y = df['Classes'].astype(int)
     
     print("Splitting data...")
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
