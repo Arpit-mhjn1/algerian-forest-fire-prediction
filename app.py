@@ -250,22 +250,21 @@ def main():
         if not df.empty:
             df['Classes_Label'] = df['Classes'].map({0: 'Not Fire', 1: 'Fire'})
             
-            col1, col2 = st.columns(2)
+            st.subheader("Fire vs Non-Fire Distribution")
+            fig_dist = px.pie(df, names='Classes_Label', color='Classes_Label', 
+                              color_discrete_map={'Not Fire':'#09ab3b', 'Fire':'#ff4b4b'},
+                              hole=0.4)
+            fig_dist.update_traces(textinfo='percent+label', textfont_size=14)
+            st.plotly_chart(fig_dist, use_container_width=True)
             
-            with col1:
-                st.subheader("Fire vs Non-Fire Distribution")
-                fig_dist = px.pie(df, names='Classes_Label', color='Classes_Label', 
-                                  color_discrete_map={'Not Fire':'#09ab3b', 'Fire':'#ff4b4b'},
-                                  hole=0.4)
-                fig_dist.update_traces(textinfo='percent+label', textfont_size=14)
-                st.plotly_chart(fig_dist, use_container_width=True)
-                
-            with col2:
-                st.subheader("Temperature vs FWI")
-                fig_scatter = px.scatter(df, x='Temperature', y='FWI', color='Classes_Label',
-                                         color_discrete_map={'Not Fire':'#09ab3b', 'Fire':'#ff4b4b'},
-                                         size='Temperature', hover_data=['RH', 'Ws'])
-                st.plotly_chart(fig_scatter, use_container_width=True)
+            st.divider()
+            
+            st.subheader("Temperature vs FWI")
+            fig_scatter = px.scatter(df, x='Temperature', y='FWI', color='Classes_Label',
+                                     color_discrete_map={'Not Fire':'#09ab3b', 'Fire':'#ff4b4b'},
+                                     size='Temperature', hover_data=['RH', 'Ws'])
+            fig_scatter.update_layout(legend_title_text='Status')
+            st.plotly_chart(fig_scatter, use_container_width=True)
                 
             st.divider()
             
