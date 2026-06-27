@@ -289,17 +289,16 @@ def main():
             
             metrics_df = pd.DataFrame(metrics).T
             
-            col1, col2 = st.columns([1, 1.5])
-            with col1:
-                st.markdown("#### Metrics Table")
-                st.dataframe(metrics_df.style.highlight_max(axis=0, color='#ff4b4b'))
+            st.markdown("#### F1-Score Comparison")
+            fig_eval = px.bar(metrics_df, x=metrics_df.index, y='F1-Score', color='F1-Score',
+                              color_continuous_scale='YlOrRd')
+            fig_eval.update_layout(xaxis_title="Model", yaxis_title="F1-Score")
+            st.plotly_chart(fig_eval, use_container_width=True)
             
-            with col2:
-                st.markdown("#### F1-Score Comparison")
-                fig_eval = px.bar(metrics_df, x=metrics_df.index, y='F1-Score', color='F1-Score',
-                                  color_continuous_scale='YlOrRd')
-                fig_eval.update_layout(xaxis_title="Model", yaxis_title="F1-Score")
-                st.plotly_chart(fig_eval, use_container_width=True)
+            st.divider()
+            
+            st.markdown("#### Metrics Table")
+            st.dataframe(metrics_df.style.highlight_max(axis=0, color='#ff4b4b'), use_container_width=True)
                 
         except FileNotFoundError:
             st.warning("Metrics file not found. Have you trained the models yet?")
