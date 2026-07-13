@@ -130,6 +130,28 @@ def main():
             background-color: rgba(9, 171, 59, 0.2);
             border: 2px solid #09ab3b;
         }
+        
+        /* Responsive Mobile Styles */
+        @media screen and (max-width: 768px) {
+            .stApp {
+                background-attachment: scroll !important;
+                background-size: cover !important;
+            }
+            .block-container {
+                padding-top: 1.5rem !important;
+                padding-left: 0.75rem !important;
+                padding-right: 0.75rem !important;
+            }
+            .pred-box {
+                padding: 12px !important;
+            }
+            .pred-box h2 {
+                font-size: 1.3rem !important;
+            }
+            .pred-box h3 {
+                font-size: 1.05rem !important;
+            }
+        }
         </style>
         """,
         unsafe_allow_html=True
@@ -238,7 +260,7 @@ def main():
 
                 # We use pyplot for SHAP since it renders best natively
                 fig = shap.force_plot(expected_value, shap_val_to_plot, features[0], feature_names=feature_names, matplotlib=True, show=False)
-                st.pyplot(fig)
+                st.pyplot(fig, use_container_width=True)
                 plt.clf()
             except Exception as e:
                 st.warning(f"Could not generate SHAP explanation for the current model type. Error: {e}")
@@ -255,6 +277,10 @@ def main():
                               color_discrete_map={'Not Fire':'#09ab3b', 'Fire':'#ff4b4b'},
                               hole=0.4)
             fig_dist.update_traces(textinfo='percent+label', textfont_size=14)
+            fig_dist.update_layout(
+                legend=dict(orientation="h", yanchor="bottom", y=-0.15, xanchor="center", x=0.5),
+                margin=dict(t=30, b=30, l=10, r=10)
+            )
             st.plotly_chart(fig_dist, use_container_width=True)
             
             st.divider()
@@ -263,7 +289,11 @@ def main():
             fig_scatter = px.scatter(df, x='Temperature', y='FWI', color='Classes_Label',
                                      color_discrete_map={'Not Fire':'#09ab3b', 'Fire':'#ff4b4b'},
                                      size='Temperature', hover_data=['RH', 'Ws'])
-            fig_scatter.update_layout(legend_title_text='Status')
+            fig_scatter.update_layout(
+                legend_title_text='Status',
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                margin=dict(t=40, b=20, l=10, r=10)
+            )
             st.plotly_chart(fig_scatter, use_container_width=True)
                 
             st.divider()
@@ -273,6 +303,7 @@ def main():
             corr = numeric_df.corr()
             fig_heatmap = px.imshow(corr, text_auto=".2f", aspect="auto", 
                                     color_continuous_scale='RdBu_r')
+            fig_heatmap.update_layout(margin=dict(t=20, b=20, l=10, r=10))
             st.plotly_chart(fig_heatmap, use_container_width=True)
         else:
             st.info("No data available to display.")
@@ -291,7 +322,11 @@ def main():
             st.markdown("#### F1-Score Comparison")
             fig_eval = px.bar(metrics_df, x=metrics_df.index, y='F1-Score', color='F1-Score',
                               color_continuous_scale='YlOrRd')
-            fig_eval.update_layout(xaxis_title="Model", yaxis_title="F1-Score")
+            fig_eval.update_layout(
+                xaxis_title="Model", 
+                yaxis_title="F1-Score",
+                margin=dict(t=30, b=20, l=10, r=10)
+            )
             st.plotly_chart(fig_eval, use_container_width=True)
             
             st.divider()
