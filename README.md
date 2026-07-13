@@ -49,19 +49,21 @@ algerian-forest-fire-prediction/
    ```
 
 ## Features
-- **Live Weather Integration**: Auto-fills temperature, humidity, wind speed, and rain using the Open-Meteo API.
-- **Model Explainability**: Employs SHAP (SHapley Additive exPlanations) to explain individual predictions and why the model arrived at its conclusion.
-- **Data Visualization Dashboard**: Displays Exploratory Data Analysis (EDA) of the forest fire dataset including correlation heatmaps and feature distributions.
+- **Modern "Dark Fire" Dashboard & UI**: Premium dark forest aesthetic with custom Streamlit styling, structured card layouts, and full mobile responsiveness optimized for phones, tablets, and desktop displays.
+- **Interactive Plotly Visualizations**: Features zoomable, interactive, and mobile-optimized charts (stacked vertically with horizontal legends for clean viewing on smaller screens).
+- **Live Weather Integration**: Auto-fills real-time temperature, humidity, wind speed, and rain using the Open-Meteo API.
+- **Model Explainability**: Employs SHAP (SHapley Additive exPlanations) force plots to transparently explain individual predictions and feature contributions.
+- **Data Visualization Dashboard**: Comprehensive interactive EDA including Fire vs. Non-Fire distribution, Temperature vs. FWI scatter plots, and feature correlation heatmaps.
 
 ## Tech Stack
 - **Python** (Pandas, NumPy)
 - **Scikit-learn & XGBoost** for machine learning models
-- **Streamlit** for the frontend application
+- **Streamlit** for the frontend dashboard with custom CSS & `.streamlit/config.toml` theming
+- **Plotly Express** for interactive, responsive visual charts
 - **SHAP** for model explainability
 - **Open-Meteo API** for live weather data
 
 ## Deployment
 This project is ready to be deployed on Streamlit Community Cloud, Hugging Face Spaces, or Render.
-- **Streamlit Cloud**: Just point to this GitHub repository and select `app.py` as the main script.
-- **Render**: The included `Procfile` supports web app deployment (`web: streamlit run app.py --server.port $PORT`).
-"# algerian-forest-fire-prediction" 
+- **Streamlit Cloud**: Point to this GitHub repository and select `app.py` as the main script.
+- **Render**: The included `Procfile` supports web app deployment (`web: streamlit run app.py --server.port $PORT`). 
