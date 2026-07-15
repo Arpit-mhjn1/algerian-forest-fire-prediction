@@ -110,18 +110,29 @@ def main():
             height: 3px !important;
         }
         
-        /* Individual Tabs - No Background Box, Minimal Padding */
+        /* Individual Tabs (All Tabs: Selected and Unselected) */
+        div[data-testid="stTabs"] button,
+        div[data-testid="stTabs"] button *,
+        div[data-testid="stTabs"] div[role="tab"],
+        div[data-testid="stTabs"] div[role="tab"] *,
         .stTabs [data-baseweb="tab"],
         .stTabs [data-baseweb="tab"] *,
         .stTabs [data-baseweb="tab"] p,
+        .stTabs [data-baseweb="tab"] span,
         .stTabs button[role="tab"],
-        .stTabs button[role="tab"] * {
+        .stTabs button[role="tab"] *,
+        .stTabs button[role="tab"] p,
+        .stTabs button[role="tab"] span,
+        .stTabs div[role="tab"],
+        .stTabs div[role="tab"] *,
+        .stTabs div[role="tab"] p,
+        .stTabs div[role="tab"] span {
             height: auto !important;
             min-height: 54px !important;
-            white-space: pre-wrap;
+            white-space: pre-wrap !important;
             background-color: transparent !important;
             border-radius: 0px !important;
-            padding: 8px 8px !important;
+            padding: 8px 12px !important;
             color: #cdd5d0 !important;
             font-weight: 600 !important;
             font-size: 1.6rem !important;
@@ -132,7 +143,8 @@ def main():
         /* Tab Hover Effect */
         .stTabs [data-baseweb="tab"]:hover,
         .stTabs [data-baseweb="tab"]:hover *,
-        .stTabs button[role="tab"]:hover * {
+        .stTabs button[role="tab"]:hover *,
+        .stTabs div[role="tab"]:hover * {
             background-color: transparent !important;
             color: #ffffff !important;
         }
@@ -141,8 +153,13 @@ def main():
         .stTabs [aria-selected="true"],
         .stTabs [aria-selected="true"] *,
         .stTabs [aria-selected="true"] p,
+        .stTabs [aria-selected="true"] span,
         .stTabs button[role="tab"][aria-selected="true"],
-        .stTabs button[role="tab"][aria-selected="true"] * {
+        .stTabs button[role="tab"][aria-selected="true"] *,
+        .stTabs div[role="tab"][aria-selected="true"],
+        .stTabs div[role="tab"][aria-selected="true"] *,
+        div[data-testid="stTabs"] button[aria-selected="true"],
+        div[data-testid="stTabs"] button[aria-selected="true"] * {
             background-color: transparent !important;
             color: #ffffff !important;
             font-weight: 800 !important;
