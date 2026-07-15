@@ -93,23 +93,54 @@ def main():
             background-attachment: fixed;
         }
         
-        /* Style tabs */
+        /* Sleek Glassmorphism Pill Tab Bar */
         .stTabs [data-baseweb="tab-list"] {
-            gap: 15px;
+            gap: 12px;
+            background-color: rgba(13, 22, 17, 0.65);
+            padding: 8px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: none !important;
         }
+        
+        /* Hide default Streamlit bottom border and highlight underline */
+        .stTabs [data-baseweb="tab-border"] {
+            display: none !important;
+        }
+        .stTabs [data-baseweb="tab-highlight"] {
+            display: none !important;
+        }
+        
+        /* Individual Pill Tabs */
         .stTabs [data-baseweb="tab"] {
-            height: 50px;
+            height: 44px;
             white-space: pre-wrap;
-            background-color: rgba(13, 22, 17, 0.7);
-            border-radius: 8px 8px 0px 0px;
-            padding: 10px 20px;
-            color: #f0f2f1;
+            background-color: transparent !important;
+            border-radius: 10px !important;
+            padding: 8px 24px !important;
+            color: #cdd5d0 !important;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
+            border: 1px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        
+        /* Tab Hover Effect */
+        .stTabs [data-baseweb="tab"]:hover {
+            background-color: rgba(255, 255, 255, 0.08) !important;
+            color: #ffffff !important;
+            transform: translateY(-1px);
+        }
+        
+        /* Active Selected Tab Pill */
         .stTabs [aria-selected="true"] {
-            background-color: #ff4b4b !important;
-            color: white !important;
+            background: linear-gradient(135deg, #ff4b4b 0%, #d42b2b 100%) !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 15px rgba(255, 75, 75, 0.4) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            transform: translateY(-1px);
         }
         /* Keep dropdown menu text dark */
         div[role="listbox"] span {
