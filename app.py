@@ -110,23 +110,15 @@ def main():
             height: 3px !important;
         }
         
-        /* Individual Tabs (All Tabs: Selected and Unselected) */
-        div[data-testid="stTabs"] button,
-        div[data-testid="stTabs"] button *,
-        div[data-testid="stTabs"] div[role="tab"],
-        div[data-testid="stTabs"] div[role="tab"] *,
-        .stTabs [data-baseweb="tab"],
-        .stTabs [data-baseweb="tab"] *,
-        .stTabs [data-baseweb="tab"] p,
-        .stTabs [data-baseweb="tab"] span,
-        .stTabs button[role="tab"],
-        .stTabs button[role="tab"] *,
-        .stTabs button[role="tab"] p,
-        .stTabs button[role="tab"] span,
-        .stTabs div[role="tab"],
-        .stTabs div[role="tab"] *,
-        .stTabs div[role="tab"] p,
-        .stTabs div[role="tab"] span {
+        /* Individual Tabs (ONLY navigation tabs inside tab-list) */
+        .stTabs [data-baseweb="tab-list"] button,
+        .stTabs [data-baseweb="tab-list"] button *,
+        .stTabs [data-baseweb="tab-list"] div[role="tab"],
+        .stTabs [data-baseweb="tab-list"] div[role="tab"] *,
+        .stTabs [data-baseweb="tab-list"] [data-baseweb="tab"],
+        .stTabs [data-baseweb="tab-list"] [data-baseweb="tab"] *,
+        .stTabs [data-baseweb="tab-list"] [data-baseweb="tab"] p,
+        .stTabs [data-baseweb="tab-list"] [data-baseweb="tab"] span {
             height: auto !important;
             min-height: 54px !important;
             white-space: pre-wrap !important;
@@ -141,25 +133,23 @@ def main():
         }
         
         /* Tab Hover Effect */
-        .stTabs [data-baseweb="tab"]:hover,
-        .stTabs [data-baseweb="tab"]:hover *,
-        .stTabs button[role="tab"]:hover *,
-        .stTabs div[role="tab"]:hover * {
+        .stTabs [data-baseweb="tab-list"] [data-baseweb="tab"]:hover,
+        .stTabs [data-baseweb="tab-list"] [data-baseweb="tab"]:hover *,
+        .stTabs [data-baseweb="tab-list"] button:hover *,
+        .stTabs [data-baseweb="tab-list"] div[role="tab"]:hover * {
             background-color: transparent !important;
             color: #ffffff !important;
         }
         
         /* Active Selected Tab - Transparent Background, Bright White Text */
-        .stTabs [aria-selected="true"],
-        .stTabs [aria-selected="true"] *,
-        .stTabs [aria-selected="true"] p,
-        .stTabs [aria-selected="true"] span,
-        .stTabs button[role="tab"][aria-selected="true"],
-        .stTabs button[role="tab"][aria-selected="true"] *,
-        .stTabs div[role="tab"][aria-selected="true"],
-        .stTabs div[role="tab"][aria-selected="true"] *,
-        div[data-testid="stTabs"] button[aria-selected="true"],
-        div[data-testid="stTabs"] button[aria-selected="true"] * {
+        .stTabs [data-baseweb="tab-list"] [aria-selected="true"],
+        .stTabs [data-baseweb="tab-list"] [aria-selected="true"] *,
+        .stTabs [data-baseweb="tab-list"] [aria-selected="true"] p,
+        .stTabs [data-baseweb="tab-list"] [aria-selected="true"] span,
+        .stTabs [data-baseweb="tab-list"] button[aria-selected="true"],
+        .stTabs [data-baseweb="tab-list"] button[aria-selected="true"] *,
+        .stTabs [data-baseweb="tab-list"] div[role="tab"][aria-selected="true"],
+        .stTabs [data-baseweb="tab-list"] div[role="tab"][aria-selected="true"] * {
             background-color: transparent !important;
             color: #ffffff !important;
             font-weight: 800 !important;
@@ -241,7 +231,7 @@ def main():
             region_val = 0 if region == "Bejaia" else 1
             
         with col_btn:
-            st.markdown("<br>", unsafe_allow_html=True) # align button
+            st.markdown("<div style='height: 28px;'></div>", unsafe_allow_html=True) # align button precisely with selectbox input
             if st.button("Fetch Live Weather for Selected Region", use_container_width=True):
                 lat, lon = (36.75, 5.05) if region == "Bejaia" else (35.2, -0.63)
                 weather = fetch_weather(lat, lon)
