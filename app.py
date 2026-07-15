@@ -112,14 +112,14 @@ def main():
         
         /* Individual Tabs - No Background Box, Minimal Padding */
         .stTabs [data-baseweb="tab"] {
-            height: 52px;
+            height: 56px;
             white-space: pre-wrap;
             background-color: transparent !important;
             border-radius: 0px !important;
             padding: 10px 6px !important;
             color: #cdd5d0 !important;
             font-weight: 500;
-            font-size: 1.35rem !important;
+            font-size: 1.5rem !important;
             border: none !important;
             transition: all 0.2s ease-in-out;
         }
@@ -135,7 +135,7 @@ def main():
             background-color: transparent !important;
             color: #ffffff !important;
             font-weight: 700 !important;
-            font-size: 1.35rem !important;
+            font-size: 1.5rem !important;
             box-shadow: none !important;
             border-radius: 0px !important;
             transform: none !important;
