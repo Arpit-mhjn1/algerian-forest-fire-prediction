@@ -94,19 +94,23 @@ def main():
             background-attachment: fixed;
         }
         
-        /* Sidebar Solid Color (Deep Forest Green) */
-        [data-testid="stSidebar"] {
-            background-color: #0d1611;
+        /* Style tabs */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 15px;
         }
-        
-        [data-testid="stSidebar"] h1, 
-        [data-testid="stSidebar"] h2, 
-        [data-testid="stSidebar"] h3,
-        [data-testid="stSidebar"] p,
-        [data-testid="stSidebar"] label,
-        [data-testid="stSidebar"] span {
-            color: #f0f2f1 !important;
-            text-shadow: none;
+        .stTabs [data-baseweb="tab"] {
+            height: 50px;
+            white-space: pre-wrap;
+            background-color: rgba(13, 22, 17, 0.7);
+            border-radius: 8px 8px 0px 0px;
+            padding: 10px 20px;
+            color: #f0f2f1;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .stTabs [aria-selected="true"] {
+            background-color: #ff4b4b !important;
+            color: white !important;
         }
         /* Keep dropdown menu text dark */
         div[role="listbox"] span {
@@ -157,11 +161,9 @@ def main():
         unsafe_allow_html=True
     )
 
-    st.sidebar.title("Algerian Forest Fires")
-    st.sidebar.markdown("Predict the occurrence of forest fires using machine learning.")
-    
-    menu = ["Predict", "Dashboard", "Model Evaluation"]
-    choice = st.sidebar.selectbox("Navigation", menu)
+    st.title("Algerian Forest Fire Prediction System")
+    st.markdown("Predict the occurrence of forest fires using machine learning and explore meteorological data.")
+    st.divider()
     
     try:
         model, scaler = load_models()
@@ -171,8 +173,10 @@ def main():
         
     feature_names = ['Temperature', 'RH', 'Ws', 'Rain', 'FFMC', 'DMC', 'DC', 'ISI', 'BUI', 'FWI', 'Region']
 
-    if choice == "Predict":
-        st.title("Forest Fire Prediction Engine")
+    tab_predict, tab_dashboard, tab_eval = st.tabs(["Predict", "Dashboard", "Model Evaluation"])
+
+    with tab_predict:
+        st.subheader("Forest Fire Prediction Engine")
         st.markdown("Enter meteorological data and FWI indices below to predict the probability of a forest fire.")
         
         # Region selection & Live weather button in a row
@@ -265,8 +269,8 @@ def main():
             except Exception as e:
                 st.warning(f"Could not generate SHAP explanation for the current model type. Error: {e}")
 
-    elif choice == "Dashboard":
-        st.title("Data Visualization Dashboard")
+    with tab_dashboard:
+        st.subheader("Data Visualization Dashboard")
         df = load_data()
         
         if not df.empty:
@@ -308,8 +312,8 @@ def main():
         else:
             st.info("No data available to display.")
             
-    elif choice == "Model Evaluation":
-        st.title("Model Performance")
+    with tab_eval:
+        st.subheader("Model Performance")
         try:
             with open("models/metrics.json", "r") as f:
                 metrics = json.load(f)
