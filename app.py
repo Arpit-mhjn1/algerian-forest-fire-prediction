@@ -93,15 +93,14 @@ def main():
             background-attachment: fixed;
         }
         
-        /* Sleek Glassmorphism Pill Tab Bar */
+        /* Streamlit Cloud Style Navigation Tab Bar */
         .stTabs [data-baseweb="tab-list"] {
-            gap: 12px;
-            background-color: rgba(13, 22, 17, 0.65);
-            padding: 8px 12px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            gap: 6px;
+            background-color: #f0f2f6;
+            padding: 6px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             border-bottom: none !important;
         }
         
@@ -113,34 +112,34 @@ def main():
             display: none !important;
         }
         
-        /* Individual Pill Tabs */
+        /* Individual Rectangular Tabs */
         .stTabs [data-baseweb="tab"] {
-            height: 44px;
+            height: 42px;
             white-space: pre-wrap;
             background-color: transparent !important;
-            border-radius: 10px !important;
+            border-radius: 6px !important;
             padding: 8px 24px !important;
-            color: #cdd5d0 !important;
-            font-weight: 600;
-            font-size: 1.05rem;
-            border: 1px solid transparent;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #495057 !important;
+            font-weight: 500;
+            font-size: 0.98rem;
+            border: none !important;
+            transition: all 0.2s ease-in-out;
         }
         
         /* Tab Hover Effect */
         .stTabs [data-baseweb="tab"]:hover {
-            background-color: rgba(255, 255, 255, 0.08) !important;
-            color: #ffffff !important;
-            transform: translateY(-1px);
+            background-color: rgba(0, 0, 0, 0.05) !important;
+            color: #111827 !important;
         }
         
-        /* Active Selected Tab Pill */
+        /* Active Selected White Card Tab */
         .stTabs [aria-selected="true"] {
-            background: linear-gradient(135deg, #ff4b4b 0%, #d42b2b 100%) !important;
-            color: #ffffff !important;
-            box-shadow: 0 4px 15px rgba(255, 75, 75, 0.4) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            transform: translateY(-1px);
+            background-color: #ffffff !important;
+            color: #111827 !important;
+            font-weight: 600 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06) !important;
+            border-radius: 6px !important;
+            transform: none !important;
         }
         /* Keep dropdown menu text dark */
         div[role="listbox"] span {
