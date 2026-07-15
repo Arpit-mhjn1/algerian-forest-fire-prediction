@@ -111,31 +111,42 @@ def main():
         }
         
         /* Individual Tabs - No Background Box, Minimal Padding */
-        .stTabs [data-baseweb="tab"] {
-            height: 56px;
+        .stTabs [data-baseweb="tab"],
+        .stTabs [data-baseweb="tab"] *,
+        .stTabs [data-baseweb="tab"] p,
+        .stTabs button[role="tab"],
+        .stTabs button[role="tab"] * {
+            height: auto !important;
+            min-height: 54px !important;
             white-space: pre-wrap;
             background-color: transparent !important;
             border-radius: 0px !important;
-            padding: 10px 6px !important;
+            padding: 8px 8px !important;
             color: #cdd5d0 !important;
-            font-weight: 500;
-            font-size: 1.5rem !important;
+            font-weight: 600 !important;
+            font-size: 1.6rem !important;
             border: none !important;
             transition: all 0.2s ease-in-out;
         }
         
         /* Tab Hover Effect */
-        .stTabs [data-baseweb="tab"]:hover {
+        .stTabs [data-baseweb="tab"]:hover,
+        .stTabs [data-baseweb="tab"]:hover *,
+        .stTabs button[role="tab"]:hover * {
             background-color: transparent !important;
             color: #ffffff !important;
         }
         
         /* Active Selected Tab - Transparent Background, Bright White Text */
-        .stTabs [aria-selected="true"] {
+        .stTabs [aria-selected="true"],
+        .stTabs [aria-selected="true"] *,
+        .stTabs [aria-selected="true"] p,
+        .stTabs button[role="tab"][aria-selected="true"],
+        .stTabs button[role="tab"][aria-selected="true"] * {
             background-color: transparent !important;
             color: #ffffff !important;
-            font-weight: 700 !important;
-            font-size: 1.5rem !important;
+            font-weight: 800 !important;
+            font-size: 1.6rem !important;
             box-shadow: none !important;
             border-radius: 0px !important;
             transform: none !important;
