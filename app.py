@@ -190,10 +190,6 @@ def main():
         unsafe_allow_html=True
     )
 
-    st.title("Algerian Forest Fire Prediction System")
-    st.markdown("Predict the occurrence of forest fires using machine learning and explore meteorological data.")
-    st.divider()
-    
     try:
         model, scaler = load_models()
     except Exception as e:
@@ -205,6 +201,9 @@ def main():
     tab_predict, tab_dashboard, tab_eval = st.tabs(["Predict", "Dashboard", "Model Evaluation"])
 
     with tab_predict:
+        st.title("Algerian Forest Fire Prediction System")
+        st.markdown("Predict the occurrence of forest fires using machine learning and explore meteorological data.")
+        st.divider()
         st.subheader("Forest Fire Prediction Engine")
         st.markdown("Enter meteorological data and FWI indices below to predict the probability of a forest fire.")
         
@@ -299,6 +298,9 @@ def main():
                 st.warning(f"Could not generate SHAP explanation for the current model type. Error: {e}")
 
     with tab_dashboard:
+        st.title("Algerian Forest Fire Prediction System")
+        st.markdown("Explore and visualize dataset distributions, trends, and variable correlations.")
+        st.divider()
         st.subheader("Data Visualization Dashboard")
         df = load_data()
         
@@ -342,6 +344,9 @@ def main():
             st.info("No data available to display.")
             
     with tab_eval:
+        st.title("Algerian Forest Fire Prediction System")
+        st.markdown("Review machine learning model metrics, comparisons, and performance benchmarks.")
+        st.divider()
         st.subheader("Model Performance")
         try:
             with open("models/metrics.json", "r") as f:
