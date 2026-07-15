@@ -157,7 +157,7 @@ def main():
         unsafe_allow_html=True
     )
 
-    st.sidebar.title("🔥 Algerian Forest Fires")
+    st.sidebar.title("Algerian Forest Fires")
     st.sidebar.markdown("Predict the occurrence of forest fires using machine learning.")
     
     menu = ["Predict", "Dashboard", "Model Evaluation"]
@@ -172,7 +172,7 @@ def main():
     feature_names = ['Temperature', 'RH', 'Ws', 'Rain', 'FFMC', 'DMC', 'DC', 'ISI', 'BUI', 'FWI', 'Region']
 
     if choice == "Predict":
-        st.title("🔥 Forest Fire Prediction Engine")
+        st.title("Forest Fire Prediction Engine")
         st.markdown("Enter meteorological data and FWI indices below to predict the probability of a forest fire.")
         
         # Region selection & Live weather button in a row
@@ -183,7 +183,7 @@ def main():
             
         with col_btn:
             st.markdown("<br>", unsafe_allow_html=True) # align button
-            if st.button("🌦️ Fetch Live Weather for Selected Region", use_container_width=True):
+            if st.button("Fetch Live Weather for Selected Region", use_container_width=True):
                 lat, lon = (36.75, 5.05) if region == "Bejaia" else (35.2, -0.63)
                 weather = fetch_weather(lat, lon)
                 if weather:
@@ -196,11 +196,11 @@ def main():
         st.divider()
 
         # Input Form grouped in native container cards
-        st.subheader("📊 Feature Inputs")
+        st.subheader("Feature Inputs")
         col1, col2 = st.columns(2)
         with col1:
             with st.container(border=True):
-                st.markdown("#### 🌡️ Meteorological Data")
+                st.markdown("#### Meteorological Data")
                 temp = st.number_input("Temperature (°C)", value=st.session_state.get('temp', 30.0))
                 rh = st.number_input("Relative Humidity (%)", value=float(st.session_state.get('rh', 60.0)))
                 ws = st.number_input("Wind Speed (km/h)", value=float(st.session_state.get('ws', 15.0)))
@@ -209,14 +209,14 @@ def main():
             
         with col2:
             with st.container(border=True):
-                st.markdown("#### 🌲 FWI System Components")
+                st.markdown("#### FWI System Components")
                 dmc = st.number_input("DMC (Duff Moisture Code)", value=15.0)
                 dc = st.number_input("DC (Drought Code)", value=30.0)
                 isi = st.number_input("ISI (Initial Spread Index)", value=5.0)
                 bui = st.number_input("BUI (Buildup Index)", value=15.0)
                 fwi = st.number_input("FWI (Fire Weather Index)", value=5.0)
             
-        if st.button("🚀 Predict Fire Risk", type="primary", use_container_width=True):
+        if st.button("Predict Fire Risk", type="primary", use_container_width=True):
             features = np.array([[temp, rh, ws, rain, ffmc, dmc, dc, isi, bui, fwi, region_val]])
             features_scaled = scaler.transform(features)
             
@@ -224,12 +224,12 @@ def main():
             probability = model.predict_proba(features_scaled)[0][1] if hasattr(model, 'predict_proba') else prediction
             
             if prediction == 1:
-                st.markdown(f'<div class="pred-box high-risk"><h2>🔥 HIGH RISK OF FIRE</h2><h3>Probability: {probability*100:.1f}%</h3></div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="pred-box high-risk"><h2>HIGH RISK OF FIRE</h2><h3>Probability: {probability*100:.1f}%</h3></div>', unsafe_allow_html=True)
             else:
-                st.markdown(f'<div class="pred-box low-risk"><h2>🌲 LOW RISK OF FIRE</h2><h3>Probability: {probability*100:.1f}%</h3></div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="pred-box low-risk"><h2>LOW RISK OF FIRE</h2><h3>Probability: {probability*100:.1f}%</h3></div>', unsafe_allow_html=True)
                 
             # Explainability
-            st.subheader("🧠 Why this prediction?")
+            st.subheader("Why this prediction?")
             try:
                 explainer = shap.TreeExplainer(model)
                 shap_values = explainer.shap_values(features_scaled)
@@ -266,7 +266,7 @@ def main():
                 st.warning(f"Could not generate SHAP explanation for the current model type. Error: {e}")
 
     elif choice == "Dashboard":
-        st.title("📈 Data Visualization Dashboard")
+        st.title("Data Visualization Dashboard")
         df = load_data()
         
         if not df.empty:
@@ -309,13 +309,13 @@ def main():
             st.info("No data available to display.")
             
     elif choice == "Model Evaluation":
-        st.title("⚙️ Model Performance")
+        st.title("Model Performance")
         try:
             with open("models/metrics.json", "r") as f:
                 metrics = json.load(f)
             
             best_model = metrics.pop("Best_Model", "N/A")
-            st.info(f"🏆 **Selected Best Model:** {best_model}")
+            st.info(f"**Selected Best Model:** {best_model}")
             
             metrics_df = pd.DataFrame(metrics).T
             
