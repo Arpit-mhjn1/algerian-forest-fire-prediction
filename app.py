@@ -93,52 +93,50 @@ def main():
             background-attachment: fixed;
         }
         
-        /* Streamlit Cloud Style Navigation Tab Bar */
+        /* Clean Top Navigation Tab Bar */
         .stTabs [data-baseweb="tab-list"] {
-            gap: 6px;
-            background-color: #f0f2f6;
-            padding: 6px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            border-bottom: none !important;
+            gap: 24px;
+            background-color: transparent !important;
+            padding: 0px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
         }
         
-        /* Hide default Streamlit bottom border and highlight underline */
+        /* Streamlit highlight line styling */
         .stTabs [data-baseweb="tab-border"] {
             display: none !important;
         }
         .stTabs [data-baseweb="tab-highlight"] {
-            display: none !important;
+            background-color: #ff4b4b !important;
+            height: 3px !important;
         }
         
-        /* Individual Rectangular Tabs */
+        /* Individual Tabs - No Background Box, Minimal Padding */
         .stTabs [data-baseweb="tab"] {
-            height: 42px;
+            height: 46px;
             white-space: pre-wrap;
             background-color: transparent !important;
-            border-radius: 6px !important;
-            padding: 8px 24px !important;
-            color: #495057 !important;
+            border-radius: 0px !important;
+            padding: 8px 4px !important;
+            color: #cdd5d0 !important;
             font-weight: 500;
-            font-size: 0.98rem;
+            font-size: 1.05rem;
             border: none !important;
             transition: all 0.2s ease-in-out;
         }
         
         /* Tab Hover Effect */
         .stTabs [data-baseweb="tab"]:hover {
-            background-color: rgba(0, 0, 0, 0.05) !important;
-            color: #111827 !important;
+            background-color: transparent !important;
+            color: #ffffff !important;
         }
         
-        /* Active Selected White Card Tab */
+        /* Active Selected Tab - Transparent Background, Bright White Text */
         .stTabs [aria-selected="true"] {
-            background-color: #ffffff !important;
-            color: #111827 !important;
-            font-weight: 600 !important;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06) !important;
-            border-radius: 6px !important;
+            background-color: transparent !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            box-shadow: none !important;
+            border-radius: 0px !important;
             transform: none !important;
         }
         /* Keep dropdown menu text dark */
