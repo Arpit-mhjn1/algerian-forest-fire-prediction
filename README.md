@@ -1,69 +1,84 @@
-# Algerian Forest Fire Prediction System
+# 🔥 Algerian Forest Fire Prediction System 🌲
 
-An end-to-end, **phone-friendly** and responsive Machine Learning web application to predict the occurrence of forest fires in two regions of Algeria (Bejaia and Sidi Bel-abbes) based on meteorological variables.
+An end-to-end, **📱 phone-friendly** and responsive Machine Learning web application to predict the occurrence of forest fires in two regions of Algeria (**Bejaia** and **Sidi Bel-abbes**) based on meteorological variables.
 
-## Project Structure
+---
+
+## 📁 Project Structure
 
 ```text
 algerian-forest-fire-prediction/
 │── data/
-│   ├── raw/                 # Original dataset
-│   └── processed/           # Cleaned & scaled features
-│── notebooks/               # Jupyter notebooks for EDA
-│── models/                  # Pickled models, scalers, and metrics
-│── src/                     # Source code (preprocessing, training)
-│── app.py                   # Streamlit web application
-│── requirements.txt         # Python dependencies
-│── Procfile                 # For deployment on platforms like Render/Heroku
-│── README.md                # Project documentation
+│   ├── raw/                 # 📂 Original dataset
+│   └── processed/           # 🧹 Cleaned & scaled features
+│── notebooks/               # 📓 Jupyter notebooks for EDA & prototyping
+│── models/                  # 💾 Pickled models, scalers, and evaluation metrics
+│── src/                     # ⚙️ Source code (preprocessing, training pipelines)
+│── app.py                   # 🚀 Streamlit web application dashboard
+│── requirements.txt         # 📦 Python dependencies
+│── Procfile                 # ☁️ Deployment config for Render/Heroku
+│── README.md                # 📖 Project documentation
 ```
 
-## Setup & Local Installation
+---
 
-1. **Clone the repository**:
-   ```bash
-   git clone <repository_url>
-   cd algerian-forest-fire-prediction
-   ```
+## ⚙️ Setup & Local Installation
 
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+1️⃣ **Clone the repository**:
+```bash
+git clone <repository_url>
+cd algerian-forest-fire-prediction
+```
 
-3. **Data Processing**:
-   Fetch the dataset and run the preprocessing script:
-   ```bash
-   python src/preprocess.py
-   ```
+2️⃣ **Install dependencies**:
+```bash
+pip install -r requirements.txt
+```
 
-4. **Model Training**:
-   Train multiple ML models and pick the best one:
-   ```bash
-   python src/train.py
-   ```
+3️⃣ **Data Processing**:
+Fetch the dataset and run the automated preprocessing pipeline:
+```bash
+python src/preprocess.py
+```
 
-5. **Run the Web Application**:
-   ```bash
-   streamlit run app.py
-   ```
+4️⃣ **Model Training**:
+Train multiple machine learning algorithms and automatically select and serialize the best performing model:
+```bash
+python src/train.py
+```
 
-## Features
-- **Phone-friendly & Responsive UI**: Premium "Dark Fire" forest aesthetic with custom Streamlit styling, structured card layouts, and complete phone friendliness (optimized touch targets, scaling typography, and responsive margins across phones, tablets, and desktop displays).
-- **Interactive Plotly Visualizations**: Features zoomable, interactive, and phone-friendly charts (stacked vertically with horizontal legends for clean viewing on smaller mobile phone screens).
-- **Live Weather Integration**: Auto-fills real-time temperature, humidity, wind speed, and rain using the Open-Meteo API.
-- **Model Explainability**: Employs SHAP (SHapley Additive exPlanations) force plots to transparently explain individual predictions and feature contributions.
-- **Data Visualization Dashboard**: Comprehensive interactive EDA including Fire vs. Non-Fire distribution, Temperature vs. FWI scatter plots, and feature correlation heatmaps.
+5️⃣ **Run the Web Application**:
+Launch the responsive Streamlit dashboard locally:
+```bash
+streamlit run app.py
+```
 
-## Tech Stack
-- **Python** (Pandas, NumPy)
-- **Scikit-learn & XGBoost** for machine learning models
-- **Streamlit** for the frontend dashboard with custom CSS & `.streamlit/config.toml` theming
-- **Plotly Express** for interactive, responsive visual charts
-- **SHAP** for model explainability
-- **Open-Meteo API** for live weather data
+---
 
-## Deployment
-This project is ready to be deployed on Streamlit Community Cloud, Hugging Face Spaces, or Render.
-- **Streamlit Cloud**: Point to this GitHub repository and select `app.py` as the main script.
-- **Render**: The included `Procfile` supports web app deployment (`web: streamlit run app.py --server.port $PORT`). 
+## ✨ Key Features
+
+- 📱 **Phone-friendly & Responsive UI**: Premium *"Dark Fire"* forest aesthetic with custom Streamlit styling, structured card layouts, and complete phone friendliness (optimized touch targets, scaling typography, and responsive margins across phones, tablets, and desktop displays).
+- 📊 **Interactive Plotly Visualizations**: Features zoomable, interactive, and phone-friendly charts (stacked vertically with horizontal legends for clean, uncluttered viewing on smaller mobile screens).
+- 🌦️ **Live Weather Integration**: Auto-fills real-time temperature, relative humidity, wind speed, and rain using the **Open-Meteo API** with a single click.
+- 🧠 **Model Explainability (SHAP)**: Employs **SHAP** *(SHapley Additive exPlanations)* force plots to transparently break down individual predictions and reveal exactly how each feature influenced the fire risk score.
+- 📈 **Data Visualization Dashboard**: Comprehensive interactive Exploratory Data Analysis (EDA) including Fire vs. Non-Fire distribution, Temperature vs. FWI scatter plots, and feature correlation heatmaps.
+
+---
+
+## 🛠️ Tech Stack
+
+- 🐍 **Python** *(Pandas, NumPy)* — Data processing and mathematical operations
+- 🤖 **Scikit-learn & XGBoost** — High-performance machine learning models
+- 🎨 **Streamlit** — Interactive frontend web dashboard with custom CSS & `.streamlit/config.toml` theming
+- 📉 **Plotly Express** — Dynamic, responsive, and interactive visual charts
+- 🔍 **SHAP** — Deep model explainability and feature attribution
+- 🌐 **Open-Meteo API** — Live meteorological data fetching
+
+---
+
+## 🚀 Deployment
+
+This project is ready for instant cloud deployment on platforms like **Streamlit Community Cloud**, **Hugging Face Spaces**, or **Render**:
+
+- ☁️ **Streamlit Cloud**: Simply point to this GitHub repository and select `app.py` as your main script.
+- 🌍 **Render**: The included `Procfile` pre-configures web application hosting (`web: streamlit run app.py --server.port $PORT`). 
