@@ -1,6 +1,6 @@
 # Algerian Forest Fire Prediction System
 
-An end-to-end Machine Learning web application to predict the occurrence of forest fires in two regions of Algeria (Bejaia and Sidi Bel-abbes) based on meteorological variables.
+An end-to-end, **phone-friendly** and responsive Machine Learning web application to predict the occurrence of forest fires in two regions of Algeria (Bejaia and Sidi Bel-abbes) based on meteorological variables.
 
 ## Project Structure
 
@@ -49,8 +49,8 @@ algerian-forest-fire-prediction/
    ```
 
 ## Features
-- **Modern "Dark Fire" Dashboard & UI**: Premium dark forest aesthetic with custom Streamlit styling, structured card layouts, and full mobile responsiveness optimized for phones, tablets, and desktop displays.
-- **Interactive Plotly Visualizations**: Features zoomable, interactive, and mobile-optimized charts (stacked vertically with horizontal legends for clean viewing on smaller screens).
+- **Phone-friendly & Responsive UI**: Premium "Dark Fire" forest aesthetic with custom Streamlit styling, structured card layouts, and complete phone friendliness (optimized touch targets, scaling typography, and responsive margins across phones, tablets, and desktop displays).
+- **Interactive Plotly Visualizations**: Features zoomable, interactive, and phone-friendly charts (stacked vertically with horizontal legends for clean viewing on smaller mobile phone screens).
 - **Live Weather Integration**: Auto-fills real-time temperature, humidity, wind speed, and rain using the Open-Meteo API.
 - **Model Explainability**: Employs SHAP (SHapley Additive exPlanations) force plots to transparently explain individual predictions and feature contributions.
 - **Data Visualization Dashboard**: Comprehensive interactive EDA including Fire vs. Non-Fire distribution, Temperature vs. FWI scatter plots, and feature correlation heatmaps.
