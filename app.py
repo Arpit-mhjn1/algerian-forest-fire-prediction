@@ -18,18 +18,17 @@ st.set_page_config(page_title="Forest Fire Prediction", page_icon="🔥", layout
 @st.cache_resource
 def load_models():
     if not os.path.exists("models/model.pkl") or not os.path.exists("models/scaler.pkl"):
-        st.info("Models not found. Running data processing and training pipeline on the cloud server... Please wait.")
-        from src.preprocess import download_data, preprocess_data
-        from src.train import train_and_evaluate
-        
-        os.makedirs("data/raw", exist_ok=True)
-        os.makedirs("data/processed", exist_ok=True)
-        os.makedirs("models", exist_ok=True)
-        
-        download_data()
-        preprocess_data()
-        train_and_evaluate()
-        st.success("Training complete!")
+        with st.spinner("Setting up prediction engine and training models..."):
+            from src.preprocess import download_data, preprocess_data
+            from src.train import train_and_evaluate
+            
+            os.makedirs("data/raw", exist_ok=True)
+            os.makedirs("data/processed", exist_ok=True)
+            os.makedirs("models", exist_ok=True)
+            
+            download_data()
+            preprocess_data()
+            train_and_evaluate()
 
     model = joblib.load("models/model.pkl")
     scaler = joblib.load("models/scaler.pkl")
