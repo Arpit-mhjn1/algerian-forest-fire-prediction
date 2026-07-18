@@ -3,6 +3,7 @@
 An end-to-end, **📱 phone-friendly** and responsive Machine Learning web application to predict the occurrence of forest fires in two regions of Algeria (**Bejaia** and **Sidi Bel-abbes**) based on meteorological variables.
 
 ---
+![Alt text](path/to/your/image.png)
 
 ## 📁 Project Structure
 
